@@ -29,6 +29,8 @@ def CombSort(data_):
         while j + 1 < len(data_) - i:
             if data_[j + 1] < data_[j]:
                 data_[j],data_[j+1] = data_[j+1],data_[j]
+            j += 1
+        i += 1
                 
     return data_
         
