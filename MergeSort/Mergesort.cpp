@@ -4,36 +4,44 @@
 using namespace std;
 
 
-void MergePreSort(vector<int>& values, vector<int>& buffer, int l, int r)
+
+void MergePreSort(vector<int>& values, vector<int>& buffer, int l, int r) 
 {
-	if (l < r)
+  if (l < r) 
+  {
+    int m = (l + r) / 2;
+    MergePreSort(values, buffer, l, m);
+    MergePreSort(values, buffer, m + 1, r);
+
+    int k = l;
+    for (int i = l, j = m + 1; i <= m ||  j <= r; ) 
 	{
-		int m = (l + r) / 2 ;
-		MergePreSort(values, buffer, l , m);
-		MergePreSort(values, buffer, m + 1, r );
+      if (j > r || (i <= m && values[i] < values[j])) 
+	  {
+        buffer[k] = values[i];
+        ++i;
+      } 
+	  else 
+	  {
+        buffer[k] = values[j];
+        ++j;
+      }
+      ++k;
+    }
+    for (int i = l; i <= r; ++i) 
+	{
+      values[i] = buffer[i];
+    }
+  }
+}
 
-		int k = l;
-		
-		for(int i = l, j = m + 1; i <= m || j <= r;)
-		{
-			if(j > r || (i <= m && values[i] < values[j]))
-			{
-				buffer[k] = values[i];
-				++i;
-			}
-			else
-			{
-				buffer[k] = values[j];
-				++j;
-			}
-		}
-
-		for(int i = l; i <= r; ++i)
-		{
-			values[i] = buffer[i];
-		}
+void printV(vector<int>& values)
+{
+	for (size_t i = 0;i < values.size(); ++i )
+	{
+		cout<<values[i]<<"\t";
 	}
-
+	cout << endl;
 }
 
 
@@ -42,11 +50,12 @@ void MergeSort(vector<int>&values)
 	if(!values.empty())
 	{
 		vector<int> buffer(values.size());
+		
 		MergePreSort( values , buffer, 0 , values.size() - 1);
 	}
 }
 
-void printV(vector<int>& values)
+void printV2(vector<int>& values)
 {
 	for(size_t i = 0; i < values.size(); ++i)
 	{
